@@ -52,7 +52,7 @@ export const AuthProvider: FC = ({ children }) => {
 	);
 }
 
-function useAuth(): AuthContextData {
+export default function useAuth(): AuthContextData {
 	const context = useContext(AuthContext);
 
 	if (!context) {
@@ -61,5 +61,3 @@ function useAuth(): AuthContextData {
 
 	return context;;
 }
-
-export default useAuth;
