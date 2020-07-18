@@ -5,7 +5,7 @@ import { ToastMessage } from './../helpers/toast';
 
 interface ToastContextData {
 	addToast(message: Omit<ToastMessage, 'id'>): void;
-	removeToast(): void;
+	removeToast(id: string): void;
 }
 
 
@@ -23,8 +23,8 @@ const ToastProvider: FC = ({ children }) => {
 		setMessages(oldMessages => [...oldMessages, toast]);
 	}, []);
 
-	const removeToast = useCallback(() => { 
-		const id = uuid();
+	const removeToast = useCallback((id: string) => { 
+		setMessages(oldMessages => oldMessages.filter(message => message.id !== id));
 	}, []);
 
 	return (
