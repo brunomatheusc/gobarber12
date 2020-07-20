@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import AuthenticateUserService from '../services/AuthenticateUserService';
+import AuthenticateUserService from '../modules/users/services/AuthenticateUserService';
 
 class SesssionController {
 	public async create(req: Request, res: Response) {
