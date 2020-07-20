@@ -1,10 +1,10 @@
 import path from 'path';
 import fs from 'fs';
 import { Repository, EntityRepository  } from "typeorm";
-import User from '../typeorm/entities/User';
-import AppError from '../../../shared/errors/AppError';
+import User from '../entities/User';
+import AppError from '../../../../shared/errors/AppError';
 
-import uploadConfig from '../../../config/upload';
+import uploadConfig from '../../../../config/upload';
 
 interface UserDTO {
 	name: string;

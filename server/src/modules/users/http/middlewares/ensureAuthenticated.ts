@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import authConfig from '../../config/auth';
+import authConfig from '../../../../config/auth';
 
 export default function ensureAuthenticated(req: Request, res: Response, next: NextFunction): void {
 	const authHeader = req.headers.authorization;
