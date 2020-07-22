@@ -1,24 +1,25 @@
 import { Response, Request } from 'express';
-import CreateAppointmentService from '../modules/appointments/services/CreateAppointmentService';
-import { getCustomRepository } from 'typeorm';
-import AppointmentsRepository from '../modules/appointments/typeorm/repositories/AppointmentsRepository';
+import CreateAppointmentService from '../services/CreateAppointmentService';
 import { parseISO } from 'date-fns';
+import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
+import { container } from 'tsyringe';
 
 class AppointmentsController {
+	private appointmentsRepository: IAppointmentsRepository;
+
 	public async create(req: Request, res: Response) {		
 		const { provider_id, date } = req.body;
 		const parsedDate = parseISO(date);
 	
-		const create = new CreateAppointmentService();
+		const create = container.resolve(CreateAppointmentService);
+		//const create = new CreateAppointmentService(this.appointmentsRepository);
 		const appointment = await create.execute({ provider_id, date: parsedDate });
 	
 		return res.json(appointment);		
 	}
 
 	public async read(req: Request, res: Response) {
-		const appointmentsRepository = getCustomRepository(AppointmentsRepository);
-
-		return res.json(await appointmentsRepository.find());
+		return res.json(await this.appointmentsRepository.all());
 	}
 }
 

@@ -7,6 +7,7 @@ import routes from './shared/routes';
 import uploadConfig from './config/upload';
 
 import './shared/database';
+import './shared/container';
 import AppError from './shared/errors/AppError';
 
 const port = process.env.PORT;

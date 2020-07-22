@@ -1,10 +1,11 @@
 import path from 'path';
 import fs from 'fs';
-import { Repository, EntityRepository  } from "typeorm";
+import { Repository, EntityRepository, getRepository  } from "typeorm";
 import User from '../entities/User';
 import AppError from '../../../../shared/errors/AppError';
 
 import uploadConfig from '../../../../config/upload';
+import IUserRepository from 'modules/users/repositories/IUserRepository';
 
 interface UserDTO {
 	name: string;
@@ -18,21 +19,29 @@ interface AvatarDTO {
 }
 
 @EntityRepository(User)
-export default class UsersRepository extends Repository<User> {
-	public async getById(id: string): Promise<User | undefined> {
-		return await this.findOne({ where: { id }});
+export default class UsersRepository implements IUserRepository {
+	constructor(private ormRepository: Repository<User>) {
+		this.ormRepository = getRepository(User);
 	}
 
-	public async createUser({ name, email, password }: UserDTO): Promise<User> {
-		const user = this.create({ name, email, password });
+	public async findById(id: string): Promise<User | undefined> {
+		return await this.ormRepository.findOne(id);
+	}
 
-		await this.save(user);
+	public async findByEmail(email: string): Promise<User | undefined>{
+		return await this.ormRepository.findOne({ where: { email }});
+	}
+
+	public async create(userData: UserDTO): Promise<User> {
+		const user = this.ormRepository.create(userData);
+
+		await this.ormRepository.save(user);
 
 		return user;
 	}
 
 	public async updateUserAvatar({ id, avatar }: AvatarDTO): Promise<User> {
-		const user = await this.findOne(id);
+		const user = await this.findById(id);
 
 		if (!user) {
 			throw new AppError('Only authenticade users can change avatar.', 401);
@@ -52,5 +61,9 @@ export default class UsersRepository extends Repository<User> {
 		await this.save(user);
 
 		return user;
+	}
+
+	public async save(user: User): Promise<User> {
+		return await this.ormRepository.save(user);
 	}
 }

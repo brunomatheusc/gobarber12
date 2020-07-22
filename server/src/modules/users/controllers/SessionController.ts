@@ -1,10 +1,13 @@
 import { Response, Request } from 'express';
-import AuthenticateUserService from '../modules/users/services/AuthenticateUserService';
+import AuthenticateUserService from '../services/AuthenticateUserService';
+import IUserRepository from '../repositories/IUserRepository';
 
 class SesssionController {
+	private usersRepository: IUserRepository; 
+
 	public async create(req: Request, res: Response) {
 		const { email, password } = req.body;
-		const authenticateUser = new AuthenticateUserService();
+		const authenticateUser = new AuthenticateUserService(this.usersRepository);
 
 		const { user, token } = await authenticateUser.execute({ email, password });
 

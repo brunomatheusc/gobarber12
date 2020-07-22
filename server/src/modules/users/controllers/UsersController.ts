@@ -1,12 +1,17 @@
 import { Request, Response } from 'express';
-import CreateUserService from '../services/CreateUserService';
+import CreateUserService from './../services/CreateUserService';
+import IUserRepository from '../repositories/IUserRepository';
+import { container } from 'tsyringe';
 
 class UsersController {
+	private usersRepository: IUserRepository; 
+
 	public async create(req: Request, res: Response) {
 		try {
 			const { name, email, password } = req.body;
 
-			const createUser = new CreateUserService();
+			const createUser = container.resolve(CreateUserService);
+			//const createUser = new CreateUserService(this.usersRepository);
 
 			const user = await createUser.execute({ name, email, password });
 

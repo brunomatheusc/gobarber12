@@ -1,7 +1,6 @@
-import { getCustomRepository } from 'typeorm';
-
 import UsersRepository from '../typeorm/repositories/UsersRepository';
 import User from '../typeorm/entities/User';
+import IUserRepository from '../repositories/IUserRepository';
 
 interface Request {
 	userId: string;
@@ -9,10 +8,10 @@ interface Request {
 }
 
 export default class UpdateUserAvatarService {
+	constructor(private usersRepository: IUserRepository) {}
+	
 	public async execute({ userId, avatar }: Request): Promise<User> {
-		const usersRepositories = getCustomRepository(UsersRepository);
-
-		const user = await usersRepositories.updateUserAvatar({ id: userId, avatar });
+		const user = await this.usersRepository.updateUserAvatar({ id: userId, avatar });
 
 		return user;
 	}
