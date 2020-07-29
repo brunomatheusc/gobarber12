@@ -3,6 +3,7 @@ import { EntityRepository, Repository, getRepository } from 'typeorm';
 import IAppointmentsRepository from 'modules/appointments/repositories/IAppointmentsRepository';
 import ICreateAppointmentDTO from 'modules/appointments/dtos/ICreateAppointmentDTO';
 import Appointment from './../../typeorm/entities/Appointment';
+import { isEqual } from 'date-fns';
 
 @EntityRepository(Appointment)
 class FakeAppointmentsRepository implements IAppointmentsRepository {
@@ -23,7 +24,7 @@ class FakeAppointmentsRepository implements IAppointmentsRepository {
 	}
 
 	public async findByDate(date: Date): Promise<Appointment | undefined> {
-		const findAppointment = this.appointments.find(appointment => appointment.date === date);
+		const findAppointment = this.appointments.find(appointment => isEqual(appointment.date, date));
 
 		return findAppointment;
 	}
