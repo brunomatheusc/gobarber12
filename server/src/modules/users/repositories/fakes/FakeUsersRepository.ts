@@ -3,8 +3,8 @@ import fs from 'fs';
 import AppError from '../../../../shared/errors/AppError';
 
 import uploadConfig from '../../../../config/upload';
-import IUserRepository from 'modules/users/repositories/IUserRepository';
-import User from 'modules/users/typeorm/entities/User';
+import IUserRepository from './../IUserRepository';
+import User from './../../typeorm/entities/User';
 import { uuid } from 'uuidv4';
 
 interface UserDTO {
