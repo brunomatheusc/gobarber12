@@ -1,15 +1,11 @@
 import { Response, Request } from 'express';
-import AuthenticateUserService from '../services/AuthenticateUserService';
-import IUserRepository from '../repositories/IUserRepository';
-import IHashProvider from './../providers/HashProvider/models/IHashProvider';
+import { container } from 'tsyringe';
+import AuthenticateUserService from './../services/AuthenticateUserService';
 
 class SesssionController {
-	private usersRepository: IUserRepository; 
-	private hashProvider: IHashProvider;
-
 	public async create(req: Request, res: Response) {
 		const { email, password } = req.body;
-		const authenticateUser = new AuthenticateUserService(this.usersRepository, this.hashProvider);
+		const authenticateUser = container.resolve(AuthenticateUserService);
 
 		const { user, token } = await authenticateUser.execute({ email, password });
 
