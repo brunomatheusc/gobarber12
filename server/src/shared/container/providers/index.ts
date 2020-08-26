@@ -10,5 +10,5 @@ import IMailTemplateProvider from './MailTemplateProvider/models/IMailTemplatePr
 import HandlebarsMailTemplateProvider from './MailTemplateProvider/implementations/HandlebarsMailTemplateProvider';
 
 container.registerSingleton<IStorageProvider>('StorageProvider', DiskStorageProvider);
-container.registerInstance<IMailProvider>('MailProvider', EtherealMailProvider);
 container.registerSingleton<IMailTemplateProvider>('MailTemplateProvider', HandlebarsMailTemplateProvider);
+container.registerInstance<IMailProvider>('MailProvider', container.resolve(EtherealMailProvider));
