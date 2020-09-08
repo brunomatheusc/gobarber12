@@ -4,13 +4,17 @@ import SendForgotPasswordEmailService from './../services/SendForgotPasswordEmai
 
 class ForgotPassworController {
 	public async create(req: Request, res: Response) {
-		const { email } = req.body;
-		
-		const sendForgotPasswordEmail = container.resolve(SendForgotPasswordEmailService);
-
-		await sendForgotPasswordEmail.execute({ email });
-
-		return res.status(204).json();
+		try {
+			const { email } = req.body;
+			
+			const sendForgotPasswordEmail = container.resolve(SendForgotPasswordEmailService);
+	
+			await sendForgotPasswordEmail.execute({ email });
+	
+			return res.status(204).json();			
+		} catch (error) {
+			return res.status(400).json({ message: error.message });
+		}
 	}
 }
 

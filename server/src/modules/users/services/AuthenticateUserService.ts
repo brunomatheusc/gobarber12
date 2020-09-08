@@ -1,9 +1,9 @@
 import { sign } from "jsonwebtoken";
 
+import { injectable, inject } from "tsyringe";
 import User from '../typeorm/entities/User';
 import authConfig from '../../../config/auth';
 import IUserRepository from "../repositories/IUserRepository";
-import { injectable, inject } from "tsyringe";
 import IHashProvider from './../providers/HashProvider/models/IHashProvider';
 
 interface Request {

@@ -4,7 +4,7 @@ import IMailProvider from './../../../shared/container/providers/MailProvider/mo
 import AppError from './../../../shared/errors/AppError';
 import IUserTokensRepository from './../repositories/IUserTokensRepository';
 
-interface Request {
+interface IRequest {
 	email: string;
 }
 
@@ -21,11 +21,11 @@ export default class SendForgotPasswordEmailService {
 		private userTokensRepository: IUserTokensRepository
 	) {}
 
-	public async execute({ email }: Request): Promise<void> {
+	public async execute({ email }: IRequest): Promise<void> {
 		const user = await this.usersRepository.findByEmail(email);
 
 		if (!user) {
-			throw new AppError('User doesn\'t exists');
+			throw new AppError(`User doesn't exists`);
 		}
 
 		const { token } = await this.userTokensRepository.generate(user.id);

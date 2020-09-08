@@ -1,10 +1,6 @@
-import path from 'path';
-import fs from 'fs';
-import { Repository, EntityRepository, getRepository  } from "typeorm";
+import { Repository, getRepository  } from "typeorm";
 import User from '../entities/User';
-import AppError from '../../../../shared/errors/AppError';
 
-import uploadConfig from '../../../../config/upload';
 import IUserRepository from 'modules/users/repositories/IUserRepository';
 
 interface UserDTO {
@@ -13,14 +9,10 @@ interface UserDTO {
 	password: string;
 }
 
-interface AvatarDTO {
-	id: string;
-	avatar: string;
-}
-
-@EntityRepository(User)
 export default class UsersRepository implements IUserRepository {
-	constructor(private ormRepository: Repository<User>) {
+	private ormRepository: Repository<User>;
+	
+	constructor() {
 		this.ormRepository = getRepository(User);
 	}
 

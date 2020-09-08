@@ -1,12 +1,12 @@
-import { Repository, EntityRepository, getRepository  } from "typeorm";
-import User from '../entities/User';
+import { Repository, getRepository  } from "typeorm";
 
 import IUserTokensRepository from './../../repositories/IUserTokensRepository';
 import UserToken from './../entities/UserToken';
 
-@EntityRepository(User)
 export default class UserTokensRepository implements IUserTokensRepository {
-	constructor(private ormRepository: Repository<UserToken>) {
+	private ormRepository: Repository<UserToken>;
+	
+	constructor() {
 		this.ormRepository = getRepository(UserToken);
 	}
 

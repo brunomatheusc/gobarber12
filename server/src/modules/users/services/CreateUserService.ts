@@ -2,6 +2,7 @@ import User from '../typeorm/entities/User';
 import IUserRepository from '../repositories/IUserRepository';
 import { injectable, inject } from 'tsyringe';
 import IHashProvider from './../providers/HashProvider/models/IHashProvider';
+import AppError from './../../../shared/errors/AppError';
 
 interface Request {
 	name: string;
@@ -23,7 +24,7 @@ export default class CreateUserService {
 		const checkUserExists = await this.usersRepository.findByEmail(email);
 
 		if (checkUserExists){
-			throw new Error('E-mail address already used');
+			throw new AppError('E-mail address already used');
 		}
 
 		const hashedPassword = await this.hashProvider.generateHash(password);
