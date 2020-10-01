@@ -6,6 +6,7 @@ import uploadConfig from '../../../../config/upload';
 import IUserRepository from './../IUserRepository';
 import User from './../../typeorm/entities/User';
 import { uuid } from 'uuidv4';
+import IFindAllProvidersDTO from './../../../appointments/dtos/IFindAllProvidersDTO';
 
 interface UserDTO {
 	name: string;
@@ -18,7 +19,7 @@ interface AvatarDTO {
 	avatar: string;
 }
 
-export default class UsersRepository implements IUserRepository {
+export default class FakeUsersRepository implements IUserRepository {
 	private users: User[] = [];
 	
 	public async findById(id: string): Promise<User | undefined> {
@@ -37,6 +38,16 @@ export default class UsersRepository implements IUserRepository {
 		this.users.push(user);
 
 		return user;
+	}
+
+	public async findAllProviders({ exceptId }: IFindAllProvidersDTO): Promise<User[]> {
+		let { users } = this;
+
+		if (exceptId) {
+			users = this.users.filter(user => user.id != exceptId);
+		}
+
+		return users;
 	}
 
 	public async updateUserAvatar({ id, avatar }: AvatarDTO): Promise<User> {
