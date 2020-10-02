@@ -8,12 +8,13 @@ class AppointmentsController {
 	private appointmentsRepository: IAppointmentsRepository;
 
 	public async create(req: Request, res: Response) {		
+		const user_id = req.user.id;
+
 		const { provider_id, date } = req.body;
 		const parsedDate = parseISO(date);
 	
 		const create = container.resolve(CreateAppointmentService);
-		//const create = new CreateAppointmentService(this.appointmentsRepository);
-		const appointment = await create.execute({ provider_id, date: parsedDate });
+		const appointment = await create.execute({ provider_id, user_id, date: parsedDate });
 	
 		return res.json(appointment);		
 	}
