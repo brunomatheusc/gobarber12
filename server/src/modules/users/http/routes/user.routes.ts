@@ -20,6 +20,6 @@ userRoutes.post('/', celebrate({
 	}
 }), UsersController.create);
 
-userRoutes.patch('/avatar', ensureAuthenticated, upload.single('avatar'), UserAvatarController.update);
+userRoutes.post('/avatar', ensureAuthenticated, upload.single('avatar'), UserAvatarController.update);
 
 export default userRoutes;

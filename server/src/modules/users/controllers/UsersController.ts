@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import CreateUserService from './../services/CreateUserService';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 class UsersController {
 	public async create(req: Request, res: Response) {
@@ -11,9 +12,7 @@ class UsersController {
 
 			const user = await createUser.execute({ name, email, password });
 
-			delete user.password;
-
-			return res.json({ user });
+			return res.json({ user: classToClass(user) });
 		} catch (error) {
 			return res.status(400).json({ message: error.message });			
 		}

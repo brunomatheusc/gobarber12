@@ -4,6 +4,8 @@ import { container } from 'tsyringe';
 import UpdateProfileService from './../services/UpdateProfileService';
 import ShowProfileService from './../services/ShowProfileService';
 
+import { classToClass } from 'class-transformer';
+
 class ProfileController {
 	public async show(req: Request, res: Response) {
 		try {
@@ -12,9 +14,7 @@ class ProfileController {
 			const showProfile = container.resolve(ShowProfileService);
 			const user = await showProfile.execute({ userId });
 
-			delete user.password;
-			
-			return res.json(user);
+			return res.json(classToClass(user));
 		} catch (error) {
 			return res.status(400).json({ message: error.message });						
 		}
@@ -30,9 +30,7 @@ class ProfileController {
 
 			const user = await updatedProfile.execute({ userId, name, email, oldPassword, password })
 
-			delete user.password;
-
-			return res.json({ user });
+			return res.json({ user: classToClass(user) });
 		} catch (error) {
 			return res.status(400).json({ message: error.message });			
 		}
