@@ -5,7 +5,7 @@ import ResetPasswordService from './../services/ResetPasswordService';
 
 class ResetPasswordController {
 	public async create(req: Request, res: Response) {
-		const { password, token } = req.body;
+		const { password, passwordConfirmation, token } = req.body;
 		
 		const resetPassword = container.resolve(ResetPasswordService);
 
