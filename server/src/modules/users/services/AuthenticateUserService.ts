@@ -33,7 +33,7 @@ export default class AuthenticateUserService {
 			throw new Error('Incorrect e-mail/password combination');
 		}
 
-		const passwordMatched = await this.hashProvider.compareHash(password, user.password);
+		const passwordMatched = await this.hashProvider.compareHash(password, user.password || '');
 
 		if (!passwordMatched) {
 			throw new Error('Incorrect e-mail/password combination');

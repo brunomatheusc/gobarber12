@@ -1,7 +1,8 @@
 import { Repository, getRepository, Not  } from "typeorm";
 import User from '../entities/User';
 
-import IUserRepository from 'modules/users/repositories/IUserRepository';
+// import IUserRepository from 'modules/users/repositories/IUserRepository';
+import IUserRepository from './../../repositories/IUserRepository';
 import IFindAllProvidersDTO from './../../../appointments/dtos/IFindAllProvidersDTO';
 
 interface UserDTO {
