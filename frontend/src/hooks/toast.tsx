@@ -8,8 +8,6 @@ interface ToastContextData {
 	removeToast(id: string): void;
 }
 
-
-
 const ToastContext = createContext<ToastContextData>({} as ToastContextData);
 
 const ToastProvider: FC = ({ children }) => {
